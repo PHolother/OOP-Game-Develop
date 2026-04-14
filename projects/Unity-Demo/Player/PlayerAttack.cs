@@ -1,7 +1,8 @@
+using Script.Base.Interface;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour , IAttackReset
 {
     private Animator animator;
     private IMovementProvider movementProvider;
@@ -14,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     private int attackedToUnarmHash;
     
     [Header("攻击设置")]
-    public float attackBufferedDuration = 0.35f;
+    public float attackBufferedDuration = 0.3f;
     public bool attackBuffered;
     private float attackBufferedStartTime;
     
@@ -70,6 +71,8 @@ public class PlayerAttack : MonoBehaviour
     
     private void TurnToMove()
     {
+        if (movementProvider == null) return;
+        
         var isMoving = movementProvider.IfMove();
         if (!wasMoving && isMoving && movementProvider.CanMove && !attackBuffered && !isAttacking)
             animator.SetTrigger(turnToMoveHash);
@@ -96,5 +99,17 @@ public class PlayerAttack : MonoBehaviour
         movementProvider.DisableBuffedRotate();
         wasMoving = false;
     }
+    
+    // 接口实现
+    public void ResetAttack()
+    {
+        movementProvider.CanMove = true;
+        movementProvider.CanRotate = true;
+        animator.ResetTrigger("attacked");
+    }
 
+    public void ClearAttackBuffer()
+    {
+        attackBuffered = false;
+    }
 }
