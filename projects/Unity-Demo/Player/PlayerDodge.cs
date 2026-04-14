@@ -1,3 +1,4 @@
+using Script.Base.Interface;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -15,7 +16,7 @@ public class PlayerDodge : MonoBehaviour
     
     [SerializeField] private float inputBufferedDuration = 0.35f;
     [SerializeField] private int maxDodgeCount = 2;
-    private int dodgeCount = 0;
+    private int dodgeCount;
     private float nextDodgeTime;
     [SerializeField] private float dodgeCooldown = 1.5f;
     
@@ -23,7 +24,6 @@ public class PlayerDodge : MonoBehaviour
     [SerializeField] private float dodgeSkinWidth = 0.001f;
     [SerializeField] private float dodgeStepOffset = 0f;
     [SerializeField] private float dodgeHeight = 0.3f;
-    [SerializeField] private float dodgeCenterYOffset = 0f;   // 中心点Y偏移
     
     private float originalSkinWidth;
     private float originalStepOffset;
@@ -38,6 +38,8 @@ public class PlayerDodge : MonoBehaviour
         controller = GetComponent<CharacterController>();
         movementProvider = GetComponent<IMovementProvider>();
         dodgeHash = Animator.StringToHash("isDodging");
+        
+        
         ControllerParametersSave();
         
     }
@@ -70,6 +72,14 @@ public class PlayerDodge : MonoBehaviour
 
     private void StartDodge()
     {
+        //攻击被闪避打断处理
+        movementProvider.CanMove = true;
+        movementProvider.CanRotate = true;
+
+        var attackReset = GetComponent<IAttackReset>();
+        attackReset.ResetAttack();
+        attackReset.ClearAttackBuffer();
+        
         ControllerParametersAlter();
         if (isInputBuffered)
         {
