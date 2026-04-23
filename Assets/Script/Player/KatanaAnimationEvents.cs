@@ -6,41 +6,41 @@ namespace Script.Player
     /// <summary>
     /// Katana 动画事件包装器
     /// 挂载位置：Player（有 Animator 的物体）
-    /// 作用：将 Animator 的 Animation Event 转发到 KatanaHitBox1 上的 WeaponHitboxController
+    /// 作用：将 Animator 的 Animation Event 转发到武器上的 HitboxController
     /// </summary>
     public class KatanaAnimationEvents : MonoBehaviour
     {
         [Header("引用设置")]
-        [Tooltip("KatanaHitBox1 上的 WeaponHitboxController 组件")]
-        public WeaponHitboxController weaponHitbox;
+        [Tooltip("武器下的 HitboxController 组件")]
+        public HitboxController hitboxController;
 
         /// <summary>
-        /// 启用 HitBox（由 Animation Event 调用）
+        /// 启用 Hitbox（由 Animation Event 调用）
         /// </summary>
         public void EnableHitbox()
         {
-            if (weaponHitbox != null)
+            if (hitboxController != null)
             {
-                weaponHitbox.EnableHitbox();
+                hitboxController.EnableHitbox();
             }
             else
             {
-                Debug.LogWarning("KatanaAnimationEvents: weaponHitbox 未指定！");
+                Debug.LogWarning("KatanaAnimationEvents: HitboxController 未指定！");
             }
         }
 
         /// <summary>
-        /// 禁用 HitBox（由 Animation Event 调用）
+        /// 禁用 Hitbox（由 Animation Event 调用）
         /// </summary>
         public void DisableHitbox()
         {
-            if (weaponHitbox != null)
+            if (hitboxController != null)
             {
-                weaponHitbox.DisableHitbox();
+                hitboxController.DisableHitbox();
             }
             else
             {
-                Debug.LogWarning("KatanaAnimationEvents: weaponHitbox 未指定！");
+                Debug.LogWarning("KatanaAnimationEvents: HitboxController 未指定！");
             }
         }
     }
