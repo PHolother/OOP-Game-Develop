@@ -4,7 +4,7 @@ using Script.Base.BattleAttribute;
 
 /// <summary>
 /// 玩家UI管理器
-/// 负责更新玩家的血量、法力、体力UI显示
+/// 负责更新玩家的血量、法力UI显示
 /// </summary>
 public class PlayerUIManager : MonoBehaviour
 {
@@ -15,9 +15,6 @@ public class PlayerUIManager : MonoBehaviour
     [Tooltip("法力条Slider")]
     [SerializeField] private Slider manaSlider;
 
-    [Tooltip("体力条Slider")]
-    [SerializeField] private Slider staminaSlider;
-
     [Header("玩家属性组件引用")]
     [Tooltip("玩家的BattleAttributes组件（统一管理器）")]
     [SerializeField] public BattleAttributes battleAttributes;
@@ -25,7 +22,6 @@ public class PlayerUIManager : MonoBehaviour
     // 内部字段
     private Health playerHealth;
     private Mana playerMana;
-    private Stamina playerStamina;
 
     private void Awake()
     {
@@ -42,7 +38,6 @@ public class PlayerUIManager : MonoBehaviour
         // 在 Start 中获取组件引用（确保 BattleAttributes.Awake 已执行）
         playerHealth = battleAttributes.Health;
         playerMana = battleAttributes.Mana;
-        playerStamina = battleAttributes.Stamina;
 
         if (playerHealth == null)
         {
@@ -56,11 +51,6 @@ public class PlayerUIManager : MonoBehaviour
         if (playerMana != null)
         {
             playerMana.OnManaChanged.AddListener(UpdateManaBar);
-        }
-
-        if (playerStamina != null)
-        {
-            playerStamina.OnStaminaChanged.AddListener(UpdateStaminaBar);
         }
 
         // 初始化UI
@@ -86,13 +76,6 @@ public class PlayerUIManager : MonoBehaviour
             manaSlider.maxValue = playerMana.maxMana;
             manaSlider.value = playerMana.GetCurrentMana();
             Debug.Log($"[PlayerUIManager] 法力条初始化: {playerMana.GetCurrentMana()}/{playerMana.maxMana}");
-        }
-
-        if (staminaSlider != null && playerStamina != null)
-        {
-            staminaSlider.maxValue = playerStamina.maxStamina;
-            staminaSlider.value = playerStamina.GetCurrentStamina();
-            Debug.Log($"[PlayerUIManager] 体力条初始化: {playerStamina.GetCurrentStamina()}/{playerStamina.maxStamina}");
         }
     }
 
@@ -126,21 +109,6 @@ public class PlayerUIManager : MonoBehaviour
         Debug.Log($"[PlayerUIManager] 法力变化: {change}, 当前: {playerMana.GetCurrentMana()}/{playerMana.maxMana}");
     }
 
-    /// <summary>
-    /// 更新体力条显示
-    /// </summary>
-    /// <param name="change">体力变化量</param>
-    private void UpdateStaminaBar(int change)
-    {
-        if (staminaSlider == null || playerStamina == null)
-        {
-            return;
-        }
-
-        staminaSlider.value = playerStamina.GetCurrentStamina();
-        Debug.Log($"[PlayerUIManager] 体力变化: {change}, 当前: {playerStamina.GetCurrentStamina()}/{playerStamina.maxStamina}");
-    }
-
     private void OnDestroy()
     {
         // 取消事件订阅
@@ -152,11 +120,6 @@ public class PlayerUIManager : MonoBehaviour
         if (playerMana != null)
         {
             playerMana.OnManaChanged.RemoveListener(UpdateManaBar);
-        }
-
-        if (playerStamina != null)
-        {
-            playerStamina.OnStaminaChanged.RemoveListener(UpdateStaminaBar);
         }
     }
 }

@@ -26,15 +26,18 @@ public class PlayerMove : MonoBehaviour, IMovementProvider , IDodgeProvider
     
     private Vector3 bufferedRotation;
     private bool rotatedAttack;
+    private TargetingSystem targetingSystem;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        targetingSystem = GetComponent<TargetingSystem>();
     }
 
     void Update()
     {
+        if (HitstopManager.Instance != null && HitstopManager.Instance.IsFrozen) return;
         UpdateAttackRotate();
         PlayerRotate();
         Move();
@@ -60,14 +63,28 @@ public class PlayerMove : MonoBehaviour, IMovementProvider , IDodgeProvider
     {
         if (CanRotate) return;
         if (rotatedAttack) return;
-        if (playerInput.magnitude < 0.1f) return;
-    
-        // 计算目标方向
-        bufferedRotation = GetCameraInput();
+
+        Vector3 targetDir;
+
+        // 锁定目标时面向敌人
+        if (targetingSystem != null && targetingSystem.HasTarget)
+        {
+            targetDir = targetingSystem.CurrentTarget.position - transform.position;
+            targetDir.y = 0;
+        }
+        else
+        {
+            if (playerInput.magnitude < 0.1f) return;
+            targetDir = GetCameraInput();
+        }
+
+        if (targetDir == Vector3.zero) return;
+
+        bufferedRotation = targetDir;
         var targetRotation = Quaternion.LookRotation(bufferedRotation, Vector3.up);
     
         // 快速平滑转向（速度是正常的3-5倍）
-        var fastRotateSpeed = rotateSpeed * 4f;  // 可调整：数值越大越快
+        var fastRotateSpeed = rotateSpeed * 4f;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, fastRotateSpeed * Time.deltaTime);
     
         // 接近目标角度标记完成
@@ -91,7 +108,7 @@ public class PlayerMove : MonoBehaviour, IMovementProvider , IDodgeProvider
 
     private void Move()
     {
-        if (IsDodging) return; // 闪避时不执行 Move
+        if (IsDodging) return;
         if (!CanMove) return;
         if (isSprinting && playerInput.magnitude < 0.1f) isSprinting = false;
         
@@ -121,7 +138,7 @@ public class PlayerMove : MonoBehaviour, IMovementProvider , IDodgeProvider
     public void SetSprintState(bool sprint) => isSprinting = sprint;
     public float GetRotateSpeed() => rotateSpeed;
     
-    public void EnableBuffedRotate() => rotatedAttack = false;// 重置，允许下次攻击转向
+    public void EnableBuffedRotate() => rotatedAttack = false;
     public void DisableBuffedRotate() { }
     
     public bool IsDodging { get; }

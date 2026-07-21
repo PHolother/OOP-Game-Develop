@@ -6,7 +6,7 @@ namespace Script.Base.BattleAttribute
     /// <summary>
     /// 通用角色战斗属性脚本
     /// 实现IDamageProvider接口，提供伤害值
-    /// 统一管理Health、Mana、Stamina组件引用
+    /// 统一管理Health、Mana组件引用
     /// 适用于玩家和敌人，挂载在BattleAttribute子物体上
     /// </summary>
     public class BattleAttributes : MonoBehaviour, IDamageProvider
@@ -29,13 +29,9 @@ namespace Script.Base.BattleAttribute
         [Tooltip("法力组件（在同一物体或父物体上）")]
         private Mana mana;
 
-        [Tooltip("体力组件（在同一物体或父物体上）")]
-        private Stamina stamina;
-
         // 便捷访问属性
         public Health Health => health;
         public Mana Mana => mana;
-        public Stamina Stamina => stamina;
 
         /// <summary>
         /// 实现IDamageProvider接口
@@ -80,7 +76,6 @@ namespace Script.Base.BattleAttribute
             // 获取组件引用（所有组件都在同一物体上，使用GetComponent）
             health = GetComponent<Health>();
             mana = GetComponent<Mana>();
-            stamina = GetComponent<Stamina>();
 
             // Health是必须的
             if (health == null)
@@ -100,16 +95,6 @@ namespace Script.Base.BattleAttribute
             else
             {
                 Debug.Log($"[BattleAttributes] 成功获取Mana组件", this);
-            }
-
-            // Stamina是可选的
-            if (stamina == null)
-            {
-                Debug.Log($"[BattleAttributes] 未找到Stamina组件（该角色无体力值）", this);
-            }
-            else
-            {
-                Debug.Log($"[BattleAttributes] 成功获取Stamina组件", this);
             }
         }
     }
