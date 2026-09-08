@@ -24,4 +24,20 @@ public class GreatSwordComboEvents : MonoBehaviour
             animator.SetInteger(attackIndexHash, index);
         }
     }
+
+    /// <summary>
+    /// 伤害帧开始占位：由动画事件调用，后续在这里开启武器碰撞判定。
+    /// </summary>
+    public void OnDamageStart()
+    {
+        // TODO: 接入伤害系统（开启 hitbox / 进入可造成伤害状态）
+    }
+
+    /// <summary>
+    /// 伤害帧结束占位：由动画事件调用，后续在这里关闭武器碰撞判定。
+    /// </summary>
+    public void OnDamageEnd()
+    {
+        // TODO: 接入伤害系统（关闭 hitbox / 退出可造成伤害状态）
+    }
 }
