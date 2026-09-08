@@ -278,6 +278,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 400124, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0.00010928302
+      objectReference: {fileID: 0}
+    - target: {fileID: 400124, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0.00005464151
+      objectReference: {fileID: 0}
+    - target: {fileID: 400126, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.000022434417
+      objectReference: {fileID: 0}
+    - target: {fileID: 400126, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 85.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 400126, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.00011191438
+      objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -285,7 +305,7 @@ PrefabInstance:
     - target: {fileID: 9500000, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 3b6931e655fa45e4890260a5a00aadff, type: 2}
+      objectReference: {fileID: 9100000, guid: 3c11257fe1a4aa340904479f8383a175, type: 2}
     - target: {fileID: 9500000, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 1
@@ -337,6 +357,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100120, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 454737024}
+    - targetCorrespondingSourceObject: {fileID: 100120, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 454737027}
   m_SourcePrefab: {fileID: 100100000, guid: c0c5dd0275493e44d9ef7418695dd3cd, type: 3}
 --- !u!4 &62662326 stripped
 Transform:
@@ -1406,8 +1429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ede6d395fee9e4b9754042bcefa2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAnimationEvents
-  hitboxController: {fileID: 0}
-  aiController: {fileID: 0}
 --- !u!114 &454737025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,26 +1441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c40a4af8c52b6645b23dbf42453bbcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossDefenseController
-  blockProbability: 0.4
-  enragedBlockProbability: 0.2
-  blockRange: 4
-  blockAngle: 140
-  blockDuration: 2
-  refreshOnHit: 1
-  frontalCounterThreshold: 3
-  frontalCounterThresholdEnraged: 2
-  counterSlowDuration: 0.5
-  counterTimeScale: 0.1
-  sideBreakThreshold: 3
-  staggerDuration: 1.5
-  animator: {fileID: 0}
-  aiController: {fileID: 0}
-  bossHealth: {fileID: 0}
-  isDefending: 0
-  blockTimer: 0
-  frontalHitCount: 0
-  sideHitCount: 0
-  isEnraged: 0
 --- !u!114 &454737026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1452,46 +1453,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f92e159cab3cf3446a60babacbc31594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAIController
-  playerTransform: {fileID: 1169300069}
-  bossHealth: {fileID: 1460218536}
-  meleeRange: 4
-  midRange: 7
-  retreatDistance: 10
-  aggroRange: 30
-  pursuitDistance: 4
-  attackInterval: 0.9
-  enragedAttackInterval: 0.6
-  observeDuration: 1.5
-  idleTimeout: 5
-  enrageHpThreshold: 0.5
-  enrageRetreatDistance: 7
-  chaseMoveSpeed: 3
-  pursuitMoveSpeed: 5
-  turnSpeed: 5
-  retreatMoveSpeed: 2
-  wCombo1: 35
-  wCombo2: 25
-  wSpike: 15
-  wTurnBack: 25
-  wWhirlwind: 40
-  wEnergyCombo: 40
-  wRetreat: 20
-  wEnragedEnergyCombo: 80
-  wEnragedRetreat: 20
-  animator: {fileID: 0}
-  controller: {fileID: 0}
-  defenseController: {fileID: 0}
-  attackTimer: 0
-  observeTimer: 0
-  idleTimer: 0
-  isEnraged: 0
-  isInCombat: 0
-  isRetreating: 0
-  isObserving: 0
-  isEnraging: 0
-  comboSinceLastBlock: 0
-  wasAttacking: 0
-  attackDispatched: 0
+--- !u!114 &454737027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454737017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f9c90518b179c5418d029b559de8e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GreatSwordComboEvents
 --- !u!1 &456962174
 GameObject:
   m_ObjectHideFlags: 0
